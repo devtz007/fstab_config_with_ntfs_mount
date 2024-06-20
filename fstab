@@ -1,35 +1,54 @@
 # /etc/fstab: static file system information.
 #
-# Use 'blkid' to print the universally unique identifier for a
-# device; this may be used with UUID= as a more robust way to name devices
-# that works even if disks are added and removed. See fstab(5).
+# Use 'blkid' to print the universally unique identifier for a device; this may
+# be used with UUID= as a more robust way to name devices that works even if
+# disks are added and removed. See fstab(5).
 #
-#<file system> <mount point> <type> <options> <dump> <pass>
+# <file system>             <mount point>  <type>  <options>  <dump>  <pass>
 
-### Boot and others ###
-# /dev/sda2: LABEL="linux_swap" UUID="ad5ae035-0707-434a-94b2-716d661132ba" TYPE="swap" PARTLABEL="sda_2" PARTUUID="e735bece-5975-4134-8ed9-676e2cae8e34"
-UUID=ad5ae035-0707-434a-94b2-716d661132ba none swap sw 0 0
+###~~~~~~~~~~~~~Linux~~~~~~~~~~~~~~~###
+### Boot ###
+# /dev/sda1: UUID="938A-C3D9" BLOCK_SIZE="512" TYPE="vfat" PARTUUID="c2591057-d167-453d-85e4-5f52b50e9585"
+UUID=938A-C3D9                            /boot/efi      vfat    defaults   0 1
 
-# /dev/sda1: LABEL="linux_bootloader" UUID="e9f4c97c-6ecc-45a7-8483-4552d32a7e53" BLOCK_SIZE="4096" TYPE="ext4" PARTLABEL="sda_1" PARTUUID="2be2abb7-1323-48dc-a9f0-61b23af9649f"
-UUID=e9f4c97c-6ecc-45a7-8483-4552d32a7e53 /boot ext4 defaults 0 2  
+### Swap ###
+# /dev/sda4: UUID="754410bd-1c33-4883-8e8b-4a4bf6b801cf" TYPE="swap" PARTUUID="6b564e32-aa6e-49cd-8abf-eb24dc5a9a24"
+UUID=754410bd-1c33-4883-8e8b-4a4bf6b801cf swap           swap    defaults   0 0
 
-# /dev/nvme0n1p6: UUID="4C85-81AF" BLOCK_SIZE="512" TYPE="vfat" PARTLABEL="part_6" PARTUUID="0502f5c9-490b-4e19-becb-ed653772ca51"
-UUID=4C85-81AF /boot/efi vfat defaults 0 2
+### Root ###
+# /dev/sda2: LABEL="linux_root" UUID="bd34e248-d688-4f2b-9f74-8e18c3f76120" UUID_SUB="446c7dbc-6def-48db-939d-c39cb70345e8" BLOCK_SIZE="4096" TYPE="btrfs" PARTUUID="252e2949-d929-4175-920b-fdd44cf296f9"
+UUID=bd34e248-d688-4f2b-9f74-8e18c3f76120 /              btrfs   subvol=/@,defaults,noatime,autodefrag,discard,compress=lzo 0 2
+UUID=bd34e248-d688-4f2b-9f74-8e18c3f76120 /swap          btrfs   subvol=/@swap,defaults 0 0
+
+### Home ###
+# /dev/sda3: LABEL="linux_home" UUID="10e18865-b502-4fae-af32-c781ce2fdb8a" UUID_SUB="0aa66933-c7f9-4102-9f50-2fde06eb1737" BLOCK_SIZE="4096" TYPE="btrfs" PARTUUID="bf6a449d-97ee-4654-98c6-98058be9c62b"
+UUID=10e18865-b502-4fae-af32-c781ce2fdb8a /home          btrfs   defaults,noatime,autodefrag,discard,compress=lzo 0 3
+
+### Others ###
+/swap/swapfile                            swap           swap    defaults   0 0
+tmpfs                                     /tmp           tmpfs   defaults,noatime,mode=1777 0 0
 
 
 
-### Disk 1 ###
-# /dev/sda4: LABEL="linux_home" UUID="a72a6508-7ada-49d1-b823-2b14574772ba" BLOCK_SIZE="4096" TYPE="ext4" PARTLABEL="sda_4" PARTUUID="9d6c0f30-3f08-4129-99c0-0afb90b326a6"
-UUID=a72a6508-7ada-49d1-b823-2b14574772ba / ext4 errors=remount-ro 0 1 
 
 
-### Disk 2 ###
-# /dev/nvme0n1p1: LABEL="part_1" BLOCK_SIZE="512" UUID="78FCDCC9FCDC82B4" TYPE="ntfs" PARTLABEL="part_1" PARTUUID="587a49e0-5d47-4bec-8e36-417100afd69e"
-UUID=78FCDCC9FCDC82B4 /media/us/part_1 ntfs-3g defaults,uid=1000,gid=1000,permissions 0 0
+###~~~~~~~~~~~~~Windows~~~~~~~~~~~~~~~###
+### nvme0n1p1 ###
+# /dev/nvme0n1p1: LABEL="part_1" BLOCK_SIZE="512" UUID="01DABBD7BAD624D0" TYPE="ntfs" PARTLABEL="part_1" PARTUUID="587a49e0-5d47-4bec-8e36-417100afd69e"
+UUID=01DABBD7BAD624D0 /media/us/part_1 ntfs-3g defaults,uid=1000,gid=1000,permissions 0 0
 
-# /dev/nvme0n1p3: LABEL="part_3" BLOCK_SIZE="512" UUID="01DA42DDE5F97EF0" TYPE="ntfs" PARTLABEL="part_3" PARTUUID="fe4fbfa7-a9ef-49e0-8b8e-cd8909b6e68a"
-UUID=01DA42DDE5F97EF0 /media/us/part_3 ntfs-3g defaults,uid=1000,gid=1000,permissions 0 0
+### nvme0n1p2 ###
+# /dev/nvme0n1p2: LABEL="part_2" BLOCK_SIZE="512" UUID="01DABBD7A2ACB040" TYPE="ntfs" PARTLABEL="part_2" PARTUUID="802ada53-d12b-43fe-bb73-572bfcad98cc"
+UUID=01DABBD7A2ACB040 /media/us/part_2 ntfs-3g defaults,uid=1000,gid=1000,permissions 0 0
 
+### nvme0n1p3 ###
+# /dev/nvme0n1p3: LABEL="part_3" BLOCK_SIZE="512" UUID="01DABBD7A1D1B990" TYPE="ntfs" PARTLABEL="part_3" PARTUUID="fe4fbfa7-a9ef-49e0-8b8e-cd8909b6e68a"
+UUID=01DABBD7A1D1B990 /media/us/part_3 ntfs-3g defaults,uid=1000,gid=1000,permissions 0 0
+
+### nvme0n1p4 ###
+# /dev/nvme0n1p4: LABEL="part_4" BLOCK_SIZE="512" UUID="01DA42E05D331FB0" TYPE="ntfs" PARTLABEL="part_4" PARTUUID="0015d7d9-b790-0977-dcc2-df21b2af2b00"
+UUID=01DA42E05D331FB0 /media/us/part_4 ntfs-3g defaults,uid=1000,gid=1000,permissions 0 0
+
+### nvme0n1p5 ###
 # /dev/nvme0n1p5: LABEL="part_5" BLOCK_SIZE="512" UUID="6DA288B407F175FE" TYPE="ntfs" PARTLABEL="part_5" PARTUUID="010be911-e68d-402b-b546-4abc4180af7a"
 UUID=6DA288B407F175FE /media/us/part_5 ntfs-3g defaults,uid=1000,gid=1000,permissions 0 0
-
